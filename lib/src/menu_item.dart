@@ -1,6 +1,6 @@
 part of 'menu.dart';
 
-/// [MenuItem] sets each individual cell of the menu
+/// This sets each individual cell of the menu
 class MenuItem {
   final Widget child;
   final Color backgroundColor;

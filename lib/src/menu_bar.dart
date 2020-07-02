@@ -10,7 +10,7 @@ List<T> addDividers<T>(List<T> items, T divider) {
   return finalItems;
 }
 
-/// [MenuBar] holds the parameters for drawing the menu
+/// This holds the parameters for drawing the menu
 class MenuBar {
   /// A list of the items of the menu
   final List<MenuItem> menuItems;
@@ -40,7 +40,7 @@ class MenuBar {
     Color backgroundColor,
     this.elevation = 4,
     BorderRadiusGeometry borderRadius,
-  // ignore: unnecessary_this
+    // ignore: unnecessary_this
   })  : this.backgroundColor = backgroundColor ?? Colors.grey[200],
         // ignore: unnecessary_this
         this._divider =

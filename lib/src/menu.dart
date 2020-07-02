@@ -7,7 +7,7 @@ import 'enums.dart';
 part 'menu_item.dart';
 part 'menu_bar.dart';
 
-///[Menu] is the what contains both the widget you want to draw a menu for and the menu object itself, called [MenuBar]
+/// This is the what contains both the widget you want to draw a menu for and the menu object itself, called [MenuBar]
 class Menu extends StatefulWidget {
   final Widget child;
 
@@ -24,7 +24,7 @@ class Menu extends StatefulWidget {
   /// child will be touching
   final MenuAlignment menuAlignmentOnChild;
 
-  /// [MenuPosition] is an enum that specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
+  /// This is an enum that specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
   final MenuPosition position;
 
   /// This is an x,y offset that will applied after the menu has been aligned.  This allows you to push the toward or away from the child
@@ -68,10 +68,12 @@ class _MenuState extends State<Menu> {
           ? buildMenu
           : null,
       onDoubleTap: widget.tapType == TapType.doubleTap ? buildMenu : null,
-      onSecondaryTap:
-          (widget.tapType == TapType.secondaryTap) && !widget.menuOverTap
-              ? buildMenu
-              : null,
+      onSecondaryTapDown: (details) {
+        if (widget.tapType == TapType.secondaryTap && !widget.menuOverTap) {
+          return buildMenu;
+        }
+        return null;
+      },
       onLongPress: widget.tapType == TapType.longPress ? buildMenu : null,
       onTapUp: widget.tapType == TapType.tap && widget.menuOverTap
           ? (details) {
