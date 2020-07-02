@@ -4,17 +4,28 @@ import 'package:flutter/rendering.dart';
 
 import 'enums.dart';
 
-part 'decoration.dart';
 part 'menu_item.dart';
 part 'menu_bar.dart';
 
+///[Menu] is the what contains both the widget you want to draw a menu for and the menu object itself, called [MenuBar]
 class Menu extends StatefulWidget {
   final Widget child;
+  /// A [MenuBar] which contains all of the info for rendering the Menu
   final MenuBar menuBar;
+  /// This will draw the menu where you tap/click on the child widget instead of at a predefined position
   final bool menuOverTap;
+  /// This sets the alignment/orientation where the menu is to be drawn.  
+  /// 
+  /// For example, `menuAlignmentOnChild: Alignment.topCenter` means that the menu will be drawn aligned to the topCenter of the child widget
+  /// The default is to draw the menu outside of the child widget, so that for `Alignment.topCenter` the bottom of the menu and the top of the 
+  /// child will be touching
   final MenuAlignment menuAlignmentOnChild;
+  /// [MenuPosition] is an enum that specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
   final MenuPosition position;
+  /// This is an x,y offset that will applied after the menu has been aligned.  This allows you to push the toward or away from the child
+  /// or shift it side to side as needed.
   final Offset offset;
+  /// This sets what type of tap (onTap, onDoubleTap, etc) this menu will respond to.
   final TapType tapType;
 
   Menu({

@@ -1,5 +1,6 @@
 part of 'menu.dart';
 
+/// [MenuItem] sets each individual cell of the menu
 class MenuItem {
   final Widget child;
   final Color backgroundColor;
@@ -44,6 +45,10 @@ class __MenuItemState extends State<_MenuItem> {
           if (widget.menuItem.onTap != null) widget.menuItem.onTap();
           //TODO: figure out what to do with dismissing after tap.  Maybe just leave as is?  Dismissing cause InkWell to fail
           //widget.dismiss();
+        },
+        onLongPress: () {
+          if (widget.menuItem.onLongPress != null)
+            widget.menuItem.onLongPress();
         },
         splashColor: widget.menuItem._splashColor,
         child: Center(

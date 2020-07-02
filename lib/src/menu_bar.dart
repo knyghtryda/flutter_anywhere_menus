@@ -10,17 +10,22 @@ List<T> addDividers<T>(List<T> items, T divider) {
   return finalItems;
 }
 
+/// [MenuBar] holds the parameters for drawing the menu
 class MenuBar {
+  /// A list of the items of the menu
   final List<MenuItem> menuItems;
-
-  ///The thickness of the MenuBar.
+  /// The thickness of the MenuBar.  
   final double maxThickness;
-  final Widget _divider;
+  /// This sets the paddings for all [MenuItem] in this menu.  Note that the [MenuItem] can override this
+  /// if it specifies its own padding
   final EdgeInsets itemPadding;
+  /// Do you want to draw a divider?
   final bool drawDivider;
   final Color backgroundColor;
   final double elevation;
+  /// This sets a border radius for the menu
   final BorderRadiusGeometry borderRadius;
+  final Widget _divider;
 
   MenuBar({
     this.menuItems,

@@ -18,17 +18,42 @@ Menu(
 );
 ```
 
+**Slightly Fancier Menu**
+```dart
+Menu(
+  child: MaterialButton(
+    child: Text('Dem Fancy Menus'),
+  ),
+  menuBar: MenuBar(
+    itemPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+    menuItems: [
+      MenuItem(
+        child: Icon(Icons.color_lens, color: Colors.grey[600]),
+        onTap: () => _incrementCounter(),
+      ),
+      MenuItem(
+          child: Menu(
+        child: Icon(Icons.colorize, color: Colors.grey[600]),
+        menuBar: MenuBar(),  //Sub menus!
+      )),
+      MenuItem(
+          child: Icon(Icons.content_copy, color: Colors.grey[600])),
+    ],
+  ),
+),
+```
+
 ## Roadmap
 - [ ] Vertical menus
-- [ ] Fixed screen position menus
 - [ ] Animations
+- [ ] Fixed screen position menus (Guess that'd just be a Toast...)
 
 ## Background
 Why FAM?  The short answer is... [yak shaving][1].  I needed a menu for a project that would pop up above a widget when I clicked on it.  Simple right?  Yeah... no.  There were a few more requirements that made it a far more interesting problem.
 1.  The menu needs to be very customizable
-2.  The menu needs the ability to have sub-menus **OR** sub-widgets
-3.  The menu (and all sub-menus and sub-widgets) needs to be a drawn above all other widgets
-4.  And this was the doozy... the menu needs to be positionable *RELATIVE* to its parent widget, and all sub-menus and sub-widgets need to be relative positioned to their parent
+2.  The menu needs the ability to have child menus **OR** child widgets
+3.  The menu (and all children) needs to be a drawn above all other widgets
+4.  And this was the doozy... the menu needs to be positionable *RELATIVE* to its parent widget, and all child menus and child widgets need to be relative positioned to their parent
 
 That last requirement took me down the rabbit hole of Flutter widget positioning and long story short, Flutter is one of a few (maybe the only?) rendering/UI languages I've used that simply cannot do relative positioning out of the box (pun intended).  See, the box is what traps you.  You can `Column()` and `Row()` all day long but you're still trapped in box.  What I want is the equivalent of `widget1.alignTo(widget2, fromAlignment: Alignment.topCenter, toAlignment: Alignment.bottomCenter)` so that I can setup a widget and then just stick it on to another widget.  A man can dream right?
 
@@ -52,6 +77,6 @@ And this is a being done with overlays 😃 and...
 OK.  It ain't pretty, but the results do speak for themselves.  Hope at least some of you can make use of this, and maybe Flutter will one day have relational positioning like any sensible rendering language.
 
 ## Credits
-This was originally a fork of https://github.com/CaiJingLong/flutter_long_tap_menu that outgrew most of the original code.  
+This was originally a fork of https://github.com/CaiJingLong/flutter_long_tap_menu that outgrew most of the original code.  Many yak were shaved in the process.
 
 [1]:https://en.wiktionary.org/wiki/yak_shaving 
