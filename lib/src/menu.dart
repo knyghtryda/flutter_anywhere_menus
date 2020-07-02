@@ -10,23 +10,32 @@ part 'menu_bar.dart';
 ///[Menu] is the what contains both the widget you want to draw a menu for and the menu object itself, called [MenuBar]
 class Menu extends StatefulWidget {
   final Widget child;
+
   /// A [MenuBar] which contains all of the info for rendering the Menu
   final MenuBar menuBar;
+
   /// This will draw the menu where you tap/click on the child widget instead of at a predefined position
   final bool menuOverTap;
-  /// This sets the alignment/orientation where the menu is to be drawn.  
-  /// 
+
+  /// This sets the alignment/orientation where the menu is to be drawn.
+  ///
   /// For example, `menuAlignmentOnChild: Alignment.topCenter` means that the menu will be drawn aligned to the topCenter of the child widget
-  /// The default is to draw the menu outside of the child widget, so that for `Alignment.topCenter` the bottom of the menu and the top of the 
+  /// The default is to draw the menu outside of the child widget, so that for `Alignment.topCenter` the bottom of the menu and the top of the
   /// child will be touching
   final MenuAlignment menuAlignmentOnChild;
+
   /// [MenuPosition] is an enum that specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
   final MenuPosition position;
+
   /// This is an x,y offset that will applied after the menu has been aligned.  This allows you to push the toward or away from the child
   /// or shift it side to side as needed.
   final Offset offset;
+
   /// This sets what type of tap (onTap, onDoubleTap, etc) this menu will respond to.
   final TapType tapType;
+
+  /// This will clamp the position so that the menu always renders on the screen.  Default is `true`.
+  final bool forceOnscreen;
 
   Menu({
     Key key,
@@ -37,6 +46,7 @@ class Menu extends StatefulWidget {
     this.position = MenuPosition.outside,
     this.offset = Offset.zero,
     this.tapType = TapType.tap,
+    this.forceOnscreen = true,
   }) : super(key: key);
 
   @override
@@ -190,6 +200,7 @@ class _MenuState extends State<Menu> {
           menuOffset: widget.offset,
           alignment: _childAlignmentOnMenu,
           dismiss: dismiss,
+          forceOnscreen: widget.forceOnscreen,
         ),
       ),
     );
@@ -211,6 +222,7 @@ class _MenuWidget extends StatefulWidget {
   final Offset menuOffset;
   final MenuBar menuBar;
   final MenuAlignment alignment;
+  final bool forceOnscreen;
   final Function dismiss;
 
   const _MenuWidget({
@@ -220,6 +232,7 @@ class _MenuWidget extends StatefulWidget {
     this.alignment,
     this.menuOffset,
     this.menuBar,
+    this.forceOnscreen,
   }) : super(key: key);
 
   @override
@@ -288,21 +301,28 @@ class _MenuWidgetState extends State<_MenuWidget>
     return Opacity(
       opacity: showMenu ? 1.0 : 0,
       //This padding is what shifts the menu on global coordinates, with 0,0 in the upper left
-      child: Padding(
-        padding: EdgeInsets.only(
-            //Clamp is necessary to prevent a negative padding
-            left: _offset.dx.clamp(0, size.width - _size.width).toDouble(),
-            top: _offset.dy.clamp(0, size.height - _size.height).toDouble()),
+      child: Stack(
         //Uncertain function for FittedBox, but it is necessary for things to work
-        child: FittedBox(
-          fit: BoxFit.none,
-          alignment: Alignment.topLeft,
-          child: _MenuBar(
-            menuKey: menuKey,
-            menuBar: widget.menuBar,
-            dismiss: widget.dismiss,
+        children: [
+          Positioned(
+            //Clamp is necessary to prevent a negative padding
+            left: widget.forceOnscreen
+                ? _offset.dx.clamp(0, size.width - _size.width).toDouble()
+                : _offset.dx,
+            top: widget.forceOnscreen
+                ? _offset.dy.clamp(0, size.height - _size.height).toDouble()
+                : _offset.dy,
+            child: FittedBox(
+              fit: BoxFit.none,
+              alignment: Alignment.topLeft,
+              child: _MenuBar(
+                menuKey: menuKey,
+                menuBar: widget.menuBar,
+                dismiss: widget.dismiss,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
