@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_anywhere_menus/fam.dart';
+import 'package:flutter_anywhere_menus/flutter_anywhere_menus.dart';
 
 void main() {
   runApp(MyApp());

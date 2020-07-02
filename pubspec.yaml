@@ -1,8 +1,7 @@
 name: flutter_anywhere_menus
 description: Menus Anywhere!
 version: 0.1.0
-author: Yan Min Hong <yancorp@gmail.com>
-homepage: 
+homepage: https://github.com/knyghtryda/flutter_anywhere_menus
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
