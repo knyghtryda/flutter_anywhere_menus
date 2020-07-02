@@ -47,8 +47,9 @@ class __MenuItemState extends State<_MenuItem> {
           //widget.dismiss();
         },
         onLongPress: () {
-          if (widget.menuItem.onLongPress != null)
+          if (widget.menuItem.onLongPress != null) {
             widget.menuItem.onLongPress();
+          }
         },
         splashColor: widget.menuItem._splashColor,
         child: Center(

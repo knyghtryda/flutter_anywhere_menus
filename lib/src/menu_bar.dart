@@ -40,9 +40,12 @@ class MenuBar {
     Color backgroundColor,
     this.elevation = 4,
     BorderRadiusGeometry borderRadius,
+  // ignore: unnecessary_this
   })  : this.backgroundColor = backgroundColor ?? Colors.grey[200],
+        // ignore: unnecessary_this
         this._divider =
             dividerWidget ?? Container(width: 1, color: Colors.white),
+        // ignore: unnecessary_this
         this.borderRadius = borderRadius ?? BorderRadius.circular(16);
 }
 

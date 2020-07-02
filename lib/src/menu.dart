@@ -57,6 +57,7 @@ class _MenuState extends State<Menu> {
   final GlobalKey key = GlobalKey();
   OverlayEntry itemEntry;
   bool showMenu = false;
+  // ignore: prefer_final_fields
   static List<OverlayEntry> _overlays = [];
 
   @override
@@ -68,7 +69,7 @@ class _MenuState extends State<Menu> {
           : null,
       onDoubleTap: widget.tapType == TapType.doubleTap ? buildMenu : null,
       onSecondaryTap:
-          widget.tapType == TapType.secondaryTap && !widget.menuOverTap
+          (widget.tapType == TapType.secondaryTap) && !widget.menuOverTap
               ? buildMenu
               : null,
       onLongPress: widget.tapType == TapType.longPress ? buildMenu : null,
