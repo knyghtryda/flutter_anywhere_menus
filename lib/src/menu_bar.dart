@@ -12,17 +12,29 @@ List<T> addDividers<T>(List<T> items, T divider) {
 
 class MenuBar {
   final List<MenuItem> menuItems;
-  ///The thickness of the MenuBar.  
-  final double thickness;
-  final BoxDecoration decoration;
-  final Widget _divider;
 
-  MenuBar({this.menuItems, this.thickness = 36, this.decoration, Widget divider})
-      : _divider = divider ??
-            Container(
-              width: 1,
-              color: Colors.black,
-            );
+  ///The thickness of the MenuBar.
+  final double maxThickness;
+  final Widget _divider;
+  final EdgeInsets itemPadding;
+  final bool drawDivider;
+  final Color backgroundColor;
+  final double elevation;
+  final BorderRadiusGeometry borderRadius;
+
+  MenuBar({
+    this.menuItems,
+    this.maxThickness = 36,
+    Widget dividerWidget,
+    this.itemPadding = const EdgeInsets.all(4),
+    this.drawDivider = true,
+    Color backgroundColor,
+    this.elevation = 4,
+    BorderRadiusGeometry borderRadius,
+  })  : this.backgroundColor = backgroundColor ?? Colors.grey[200],
+        this._divider =
+            dividerWidget ?? Container(width: 1, color: Colors.white),
+        this.borderRadius = borderRadius ?? BorderRadius.circular(16);
 }
 
 class _MenuBar extends StatefulWidget {
@@ -30,7 +42,8 @@ class _MenuBar extends StatefulWidget {
   final MenuBar menuBar;
   final Function dismiss;
 
-  _MenuBar({Key key, this.dismiss, this.menuBar, this.menuKey}) : super(key: key);
+  _MenuBar({Key key, this.dismiss, this.menuBar, this.menuKey})
+      : super(key: key);
 
   @override
   _MenuBarState createState() => _MenuBarState();
@@ -44,23 +57,41 @@ class _MenuBarState extends State<_MenuBar> {
     final widgetItems = menuItems
         .map((item) => _MenuItem(
               menuItem: item,
+              itemPadding: widget.menuBar.itemPadding,
               dismiss: widget.dismiss,
             ))
         .toList();
-
-    return ClipRRect(
-      child: Container(
-        decoration: widget.menuBar.decoration,
-        height: widget.menuBar.thickness,
-        alignment: Alignment.topLeft,
-        width: MediaQuery.of(context).size.width,
-        child: ListView(
-          key: widget.menuKey,
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          children: addDividers<Widget>(widgetItems, widget.menuBar._divider),
-        ),
+    // Container sets the thickness of the menu.
+    // TODO: modify this to allow for vertical menus
+    return Container(
+      constraints: BoxConstraints(maxHeight: widget.menuBar.maxThickness),
+      // height: widget.menuBar.thickness,
+      alignment: Alignment.topLeft,
+      width: MediaQuery.of(context).size.width,
+      //Current location of the the menu decoration.  Material should probably exist here
+      child: Material(
+        color: widget.menuBar.backgroundColor,
+        elevation: widget.menuBar.elevation,
+        borderRadius: widget.menuBar.borderRadius,
+        clipBehavior: Clip.antiAlias,
+        child: widget.menuBar.drawDivider
+            ? ListView.separated(
+                key: widget.menuKey,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
+                itemBuilder: (context, index) => widgetItems[index],
+                separatorBuilder: (context, index) => widget.menuBar._divider,
+                itemCount: widgetItems.length,
+              )
+            : ListView(
+                key: widget.menuKey,
+                //shrinkwrap is necessary to contrain primary axis, as there is no limit placed on this by the parents
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: widgetItems,
+              ),
       ),
     );
   }

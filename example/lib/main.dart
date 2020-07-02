@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_anywhere_menus/fam.dart';
 
@@ -88,11 +90,46 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               _counter.toString(),
             ),
+            Material(
+                borderRadius: BorderRadius.circular(16),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  hoverColor: Colors.yellow,
+                  onTap: () {},
+                  child: Container(
+                      constraints: BoxConstraints(maxHeight: 50),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          Icon(Icons.access_alarms),
+                          Icon(Icons.account_circle)
+                        ],
+                      )),
+                )),
             Menu(
               child: MaterialButton(
                 child: Text('Show Basic Menu'),
               ),
               menuBar: MenuBar(),
+            ),
+            Menu(
+              child: MaterialButton(
+                child: Text('Dem Fancy Menus'),
+              ),
+              menuBar: MenuBar(
+                itemPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+                menuItems: [
+                  MenuItem(
+                    child: Icon(Icons.color_lens, color: Colors.grey[600]),
+                    onTap: () => _incrementCounter(),
+                  ),
+                  MenuItem(
+                      child: Icon(Icons.colorize, color: Colors.grey[600])),
+                  MenuItem(
+                      child: Icon(Icons.content_copy, color: Colors.grey[600])),
+                ],
+              ),
             ),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -189,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tapType: TapType.tap,
                   child: Container(
                     width: 300,
-                    height: 300,
+                    height: 200,
                     color: Colors.yellow,
                     child: Center(child: Text('Show Menu Over Tap')),
                   ),

@@ -1,5 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'enums.dart';
 
@@ -158,8 +159,8 @@ class _MenuState extends State<Menu> {
       globalOffset = tapOffset;
       _childAlignmentOnMenu = MenuAlignment.center;
     } else {
-      final rect = findGlobalRect(key,
-          childAlignBy: widget.menuAlignmentOnChild);
+      final rect =
+          findGlobalRect(key, childAlignBy: widget.menuAlignmentOnChild);
       globalOffset = Offset(rect.left, rect.top);
       _childAlignmentOnMenu = (widget.position == MenuPosition.inside
           ? widget.menuAlignmentOnChild
@@ -168,7 +169,7 @@ class _MenuState extends State<Menu> {
     itemEntry = OverlayEntry(
       builder: (BuildContext context) => GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTapDown: (details) {
+        onTapUp: (details) {
           dismiss();
         },
         child: _MenuWidget(
@@ -210,7 +211,8 @@ class _MenuWidget extends StatefulWidget {
   _MenuWidgetState createState() => _MenuWidgetState();
 }
 
-class _MenuWidgetState extends State<_MenuWidget> with AfterLayoutMixin<_MenuWidget> {
+class _MenuWidgetState extends State<_MenuWidget>
+    with AfterLayoutMixin<_MenuWidget> {
   Offset _offset = Offset.zero;
   final GlobalKey menuKey = GlobalKey();
   bool showMenu = false;
@@ -267,12 +269,16 @@ class _MenuWidgetState extends State<_MenuWidget> with AfterLayoutMixin<_MenuWid
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    //Opacity makes the widget invisible until it is rendered and moved into position
     return Opacity(
       opacity: showMenu ? 1.0 : 0,
+      //This padding is what shifts the menu on global coordinates, with 0,0 in the upper left
       child: Padding(
         padding: EdgeInsets.only(
+            //Clamp is necessary to prevent a negative padding
             left: _offset.dx.clamp(0, size.width - _size.width).toDouble(),
             top: _offset.dy.clamp(0, size.height - _size.height).toDouble()),
+        //Uncertain function for FittedBox, but it is necessary for things to work
         child: FittedBox(
           fit: BoxFit.none,
           alignment: Alignment.topLeft,

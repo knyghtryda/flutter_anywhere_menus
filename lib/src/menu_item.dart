@@ -8,24 +8,26 @@ class MenuItem {
   final Function onTap;
   final Function onLongPress;
 
-  MenuItem({
-    this.onTap,
-    this.onLongPress,
-    this.child,
-    this.backgroundColor = Colors.grey,
-    Color splashColor,
-    this.padding = const EdgeInsets.all(10),
-  }) : _splashColor = splashColor ?? Colors.grey[100];
+  MenuItem(
+      {this.onTap,
+      this.onLongPress,
+      this.child,
+      this.backgroundColor,
+      Color splashColor,
+      this.padding})
+      : _splashColor = splashColor ?? Colors.blueGrey;
 }
 
 class _MenuItem extends StatefulWidget {
   final MenuItem menuItem;
+  final EdgeInsets itemPadding;
   final Function dismiss;
 
   const _MenuItem({
     Key key,
     this.dismiss,
     this.menuItem,
+    this.itemPadding,
   }) : super(key: key);
   @override
   __MenuItemState createState() => __MenuItemState();
@@ -34,19 +36,24 @@ class _MenuItem extends StatefulWidget {
 class __MenuItemState extends State<_MenuItem> {
   @override
   Widget build(BuildContext context) {
+    //InkWell is needed to add splash to tap events
     return Material(
-      color: widget.menuItem.backgroundColor,
+      color: Colors.transparent,
       child: InkWell(
-        splashColor: widget.menuItem._splashColor,
-        child: Container(
-          padding: widget.menuItem.padding,
-          alignment: Alignment.center,
-          child: widget.menuItem.child,
-        ),
         onTap: () {
-          if(widget.menuItem.onTap != null) widget.menuItem.onTap();
-          widget.dismiss();
+          if (widget.menuItem.onTap != null) widget.menuItem.onTap();
+          //TODO: figure out what to do with dismissing after tap.  Maybe just leave as is?  Dismissing cause InkWell to fail
+          //widget.dismiss();
         },
+        splashColor: widget.menuItem._splashColor,
+        child: Center(
+          child: Padding(
+            padding: widget.menuItem.padding ??
+                widget.itemPadding ??
+                EdgeInsets.all(0),
+            child: widget.menuItem.child,
+          ),
+        ),
       ),
     );
   }
