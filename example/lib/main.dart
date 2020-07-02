@@ -125,7 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTap: () => _incrementCounter(),
                   ),
                   MenuItem(
-                      child: Icon(Icons.colorize, color: Colors.grey[600])),
+                      child: Menu(
+                    child: Icon(Icons.colorize, color: Colors.grey[600]),
+                    menuBar: MenuBar(),
+                  )),
                   MenuItem(
                       child: Icon(Icons.content_copy, color: Colors.grey[600])),
                 ],

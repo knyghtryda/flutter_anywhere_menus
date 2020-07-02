@@ -36,6 +36,7 @@ class _MenuState extends State<Menu> {
   final GlobalKey key = GlobalKey();
   OverlayEntry itemEntry;
   bool showMenu = false;
+  static List<OverlayEntry> _overlays = [];
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +169,8 @@ class _MenuState extends State<Menu> {
     }
     itemEntry = OverlayEntry(
       builder: (BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTapUp: (details) {
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
           dismiss();
         },
         child: _MenuWidget(
@@ -183,11 +184,14 @@ class _MenuState extends State<Menu> {
     );
 
     Overlay.of(context).insert(itemEntry);
+    _overlays.add(itemEntry);
   }
 
   void dismiss() {
-    if (itemEntry != null) itemEntry.remove();
-    itemEntry = null;
+    _overlays.forEach((element) {
+      element?.remove();
+    });
+    _overlays.clear();
   }
 }
 

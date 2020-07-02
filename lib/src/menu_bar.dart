@@ -86,7 +86,6 @@ class _MenuBarState extends State<_MenuBar> {
               )
             : ListView(
                 key: widget.menuKey,
-                //shrinkwrap is necessary to contrain primary axis, as there is no limit placed on this by the parents
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
