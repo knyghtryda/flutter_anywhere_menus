@@ -7,14 +7,14 @@ import 'enums.dart';
 part 'menu_item.dart';
 part 'menu_bar.dart';
 
-/// This is the what contains both the widget you want to draw a menu for and the menu object itself, called [MenuBar]
+/// This is the what contains both the widget you want to draw and the [MenuBar]
 class Menu extends StatefulWidget {
   final Widget child;
 
   /// A [MenuBar] which contains all of the info for rendering the Menu
   final MenuBar menuBar;
 
-  /// This will draw the menu where you tap/click on the child widget instead of at a predefined position
+  /// This will draw the menu where you tap/click on the child widget instead of at a predefined position  Default is `false`
   final bool menuOverTap;
 
   /// This sets the alignment/orientation where the menu is to be drawn.
@@ -27,8 +27,9 @@ class Menu extends StatefulWidget {
   /// This is an enum that specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
   final MenuPosition position;
 
-  /// This is an x,y offset that will applied after the menu has been aligned.  This allows you to push the toward or away from the child
-  /// or shift it side to side as needed.
+  /// This is an x,y offset that will applied after the menu has been aligned.
+  ///
+  /// This allows you to push the toward or away from the child or shift it side to side as needed.
   final Offset offset;
 
   /// This sets what type of tap (onTap, onDoubleTap, etc) this menu will respond to.
@@ -180,6 +181,7 @@ class _MenuState extends State<Menu> {
   void buildMenu({Offset tapOffset}) {
     MenuAlignment _childAlignmentOnMenu;
     Offset globalOffset;
+    Offset rectCenterOffset;
     if (tapOffset != null) {
       globalOffset = tapOffset;
       _childAlignmentOnMenu = MenuAlignment.center;
@@ -187,10 +189,15 @@ class _MenuState extends State<Menu> {
       final rect =
           findGlobalRect(key, childAlignBy: widget.menuAlignmentOnChild);
       globalOffset = Offset(rect.left, rect.top);
-      _childAlignmentOnMenu = (widget.position == MenuPosition.inside
-          ? widget.menuAlignmentOnChild
-          : childAlignmentOnMenu(widget.menuAlignmentOnChild));
+      if (widget.position == MenuPosition.inside) {
+        _childAlignmentOnMenu = widget.menuAlignmentOnChild;
+      } else {
+        _childAlignmentOnMenu =
+            childAlignmentOnMenu(widget.menuAlignmentOnChild);
+      }
     }
+    final rectCenter = findGlobalRect(key, childAlignBy: MenuAlignment.center);
+    rectCenterOffset = Offset(rectCenter.left, rectCenter.top);
     itemEntry = OverlayEntry(
       builder: (BuildContext context) => GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -200,6 +207,7 @@ class _MenuState extends State<Menu> {
         child: _MenuWidget(
           menuBar: widget.menuBar ?? MenuBar(),
           globalOffset: globalOffset,
+          centerOffset: rectCenterOffset,
           menuOffset: widget.offset,
           alignment: _childAlignmentOnMenu,
           dismiss: dismiss,
@@ -212,6 +220,7 @@ class _MenuState extends State<Menu> {
     _overlays.add(itemEntry);
   }
 
+  /// dismiss is passed along so that any widget drawn by this menu can call it and dismiss the whole tree and close the menu
   void dismiss() {
     _overlays.forEach((element) {
       element?.remove();
@@ -222,6 +231,7 @@ class _MenuState extends State<Menu> {
 
 class _MenuWidget extends StatefulWidget {
   final Offset globalOffset;
+  final Offset centerOffset;
   final Offset menuOffset;
   final MenuBar menuBar;
   final MenuAlignment alignment;
@@ -231,6 +241,7 @@ class _MenuWidget extends StatefulWidget {
   const _MenuWidget({
     Key key,
     this.globalOffset,
+    this.centerOffset,
     this.dismiss,
     this.alignment,
     this.menuOffset,
@@ -247,7 +258,7 @@ class _MenuWidgetState extends State<_MenuWidget>
   Offset _offset = Offset.zero;
   final GlobalKey menuKey = GlobalKey();
   bool showMenu = false;
-  Size _size = Size(0, 0);
+  Size menuSize = Size(0, 0);
 
   @override
   void initState() {
@@ -255,44 +266,49 @@ class _MenuWidgetState extends State<_MenuWidget>
     super.initState();
   }
 
-  @override
-  void afterFirstLayout(BuildContext context) {
-    RenderBox renderObject = menuKey.currentContext?.findRenderObject();
-    _size = renderObject.size;
+  Offset getNewOffset(Size size, MenuAlignment alignment) {
     var newOffset;
-    switch (widget.alignment) {
+    switch (alignment) {
       case MenuAlignment.topLeft:
-        newOffset = _size.topLeft(Offset.zero);
+        newOffset = size.topLeft(Offset.zero);
         break;
       case MenuAlignment.topCenter:
-        newOffset = _size.topCenter(Offset.zero);
+        newOffset = size.topCenter(Offset.zero);
         break;
       case MenuAlignment.topRight:
-        newOffset = _size.topRight(Offset.zero);
+        newOffset = size.topRight(Offset.zero);
         break;
       case MenuAlignment.centerLeft:
-        newOffset = _size.centerLeft(Offset.zero);
+        newOffset = size.centerLeft(Offset.zero);
         break;
       case MenuAlignment.center:
-        newOffset = _size.center(Offset.zero);
+        newOffset = size.center(Offset.zero);
         break;
       case MenuAlignment.centerRight:
-        newOffset = _size.centerRight(Offset.zero);
+        newOffset = size.centerRight(Offset.zero);
         break;
       case MenuAlignment.bottomLeft:
-        newOffset = _size.bottomLeft(Offset.zero);
+        newOffset = size.bottomLeft(Offset.zero);
         break;
       case MenuAlignment.bottomCenter:
-        newOffset = _size.bottomCenter(Offset.zero);
+        newOffset = size.bottomCenter(Offset.zero);
         break;
       case MenuAlignment.bottomRight:
-        newOffset = _size.bottomRight(Offset.zero);
+        newOffset = size.bottomRight(Offset.zero);
         break;
       default:
         newOffset = Offset.zero;
     }
+    return newOffset;
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    RenderBox renderObject = menuKey.currentContext?.findRenderObject();
+    menuSize = renderObject.size;
+    var newOffset = getNewOffset(menuSize, widget.alignment);
+    _offset = widget.globalOffset - widget.menuOffset - newOffset;
     setState(() {
-      _offset -= newOffset;
       showMenu = true;
     });
   }
@@ -303,18 +319,17 @@ class _MenuWidgetState extends State<_MenuWidget>
     //Opacity makes the widget invisible until it is rendered and moved into position
     return Opacity(
       opacity: showMenu ? 1.0 : 0,
-      //This padding is what shifts the menu on global coordinates, with 0,0 in the upper left
+      //This Stack and positioned is what shifts the menu on global coordinates, with 0,0 in the upper left
       child: Stack(
-        //Uncertain function for FittedBox, but it is necessary for things to work
         children: [
           Positioned(
-            //Clamp is necessary to prevent a negative padding
             left: widget.forceOnscreen
-                ? _offset.dx.clamp(0, size.width - _size.width).toDouble()
+                ? _offset.dx.clamp(0, size.width - menuSize.width).toDouble()
                 : _offset.dx,
             top: widget.forceOnscreen
-                ? _offset.dy.clamp(0, size.height - _size.height).toDouble()
+                ? _offset.dy.clamp(0, size.height - menuSize.height).toDouble()
                 : _offset.dy,
+            //Uncertain function for FittedBox, but it is necessary for things to work
             child: FittedBox(
               fit: BoxFit.none,
               alignment: Alignment.topLeft,

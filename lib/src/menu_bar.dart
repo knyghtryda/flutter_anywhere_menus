@@ -79,7 +79,7 @@ class _MenuBarState extends State<_MenuBar> {
       constraints: BoxConstraints(maxHeight: widget.menuBar.maxThickness),
       // height: widget.menuBar.thickness,
       alignment: Alignment.topLeft,
-      width: MediaQuery.of(context).size.width,
+      //width: MediaQuery.of(context).size.width,
       //Current location of the the menu decoration.  Material should probably exist here
       child: Material(
         color: widget.menuBar.backgroundColor,
