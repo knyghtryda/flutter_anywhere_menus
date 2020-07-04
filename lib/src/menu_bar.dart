@@ -100,53 +100,34 @@ class _MenuBarState extends State<_MenuBar> {
       alignment: Alignment.topLeft,
       //width: MediaQuery.of(context).size.width,
       child: Material(
-          key: widget.menuKey,
-          color: widget.menuBar.backgroundColor,
-          elevation: widget.menuBar.elevation,
-          borderRadius: widget.menuBar.borderStyle != MenuBorderStyle.pill
-              ? widget.menuBar.borderStyle == MenuBorderStyle.straight
-                  ? 0
-                  : widget.menuBar.borderRadius
-              : null,
-          clipBehavior: Clip.antiAlias,
-          shape: widget.menuBar.borderStyle == MenuBorderStyle.pill
-              ? MenuBorder(
-                  arrowAlignment: widget.menuAlignment,
-                  drawArrow: widget.menuBar.drawArrow)
-              : null,
-          child: widget.menuBar.orientation == MenuOrientation.horizontal
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.menuBar.drawDivider
-                      ? addDividers(menuItems, widget.menuBar._divider)
-                      : menuItems,
-                )
-              : Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: widget.menuBar.drawDivider
-                      ? addDividers(menuItems, widget.menuBar._divider)
-                      : menuItems,
-                )
-          /*
-        child: widget.menuBar.drawDivider
-            ? ListView.separated(
-                key: widget.menuKey,
-                shrinkWrap: true,
-                scrollDirection: scrollDirection,
-                physics: const ClampingScrollPhysics(),
-                itemBuilder: (context, index) => widgetItems[index],
-                separatorBuilder: (context, index) => widget.menuBar._divider,
-                itemCount: widgetItems.length,
+        key: widget.menuKey,
+        color: widget.menuBar.backgroundColor,
+        elevation: widget.menuBar.elevation,
+        borderRadius: widget.menuBar.borderStyle != MenuBorderStyle.pill
+            ? widget.menuBar.borderStyle == MenuBorderStyle.straight
+                ? 0
+                : widget.menuBar.borderRadius
+            : null,
+        clipBehavior: Clip.antiAlias,
+        shape: widget.menuBar.borderStyle == MenuBorderStyle.pill
+            ? MenuBorder(
+                arrowAlignment: widget.menuAlignment,
+                drawArrow: widget.menuBar.drawArrow)
+            : null,
+        child: widget.menuBar.orientation == MenuOrientation.horizontal
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: widget.menuBar.drawDivider
+                    ? addDividers(menuItems, widget.menuBar._divider)
+                    : menuItems,
               )
-            : ListView(
-                key: widget.menuKey,
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                scrollDirection: scrollDirection,
-                children: widgetItems,
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: widget.menuBar.drawDivider
+                    ? addDividers(menuItems, widget.menuBar._divider)
+                    : menuItems,
               ),
-              */
-          ),
+      ),
     );
   }
 }
