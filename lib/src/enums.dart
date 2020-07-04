@@ -18,4 +18,8 @@ enum MenuAlignment {
   bottomRight
 }
 
+enum MenuOrientation { vertical, horizontal }
+
 enum MenuPosition { inside, outside }
+
+enum MenuBorderStyle {straight, rounded, pill}
