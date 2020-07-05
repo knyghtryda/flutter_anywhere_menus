@@ -9,7 +9,7 @@ class MenuItem {
   final Function onTap;
   final Function onLongPress;
 
-  MenuItem(
+  const MenuItem(
       {this.onTap,
       this.onLongPress,
       this.child,
@@ -43,7 +43,7 @@ class __MenuItemState extends State<_MenuItem> {
       child: InkWell(
         onTap: () {
           if (widget.menuItem.onTap != null) widget.menuItem.onTap();
-          //TODO: figure out what to do with dismissing after tap.  Maybe just leave as is?  Dismissing cause InkWell to fail
+          //TODO: figure out what to do with dismissing after tap.  Maybe just leave as is?
           //widget.dismiss();
         },
         onLongPress: () {

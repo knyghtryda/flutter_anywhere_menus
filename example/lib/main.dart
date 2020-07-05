@@ -118,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Dem Fancy Menus'),
               ),
               menuBar: MenuBar(
+                drawArrow: true,
                 itemPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
                 menuItems: [
                   MenuItem(
@@ -125,10 +126,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTap: () => _incrementCounter(),
                   ),
                   MenuItem(
-                      child: Menu(
-                    child: Icon(Icons.colorize, color: Colors.grey[600]),
-                    menuBar: MenuBar(),
-                  )),
+                    child: Menu(
+                      offset: Offset(0, 20),
+                      child: Icon(Icons.colorize, color: Colors.grey[600]),
+                      menuBar: MenuBar(
+                          drawArrow: true,
+                          drawDivider: true,
+                          maxThickness: 68,
+                          orientation: MenuOrientation.vertical,
+                          menuItems: [MenuItem(child: Icon(Icons.add))]),
+                    ),
+                  ),
                   MenuItem(
                       child: Icon(Icons.content_copy, color: Colors.grey[600])),
                 ],
@@ -235,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   menuOverTap: true,
                   menuBar: menuBar,
-                  menuAlignmentOnChild: MenuAlignment.bottomRight,
                 ),
               ],
             ),
