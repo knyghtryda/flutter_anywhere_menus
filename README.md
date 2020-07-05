@@ -1,9 +1,8 @@
 # Flutter Anywhere Menus (FAM) ![Pub Version](https://img.shields.io/pub/v/flutter_anywhere_menus?style=for-the-badge)
 Menus, anywhere you want them!
 
-## Usage
-
-**Defaults**
+## Default Usage
+![Imgur](https://i.imgur.com/OJJFglu.png)
 ```dart
 import 'package:fam/menu.dart';
 
@@ -18,13 +17,15 @@ Menu(
 );
 ```
 
-**Slightly Fancier Menu**
+## Slightly Fancier Menu
+![Imgur](https://i.imgur.com/kVVLWJ3.png)
 ```dart
 Menu(
   child: MaterialButton(
     child: Text('Dem Fancy Menus'),
   ),
   menuBar: MenuBar(
+    drawArrow: true,
     itemPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
     menuItems: [
       MenuItem(
@@ -32,14 +33,37 @@ Menu(
         onTap: () => _incrementCounter(),
       ),
       MenuItem(
-          child: Menu(
-        child: Icon(Icons.colorize, color: Colors.grey[600]),
-        menuBar: MenuBar(),  //Sub menus!
-      )),
+        child: Menu(
+          offset: Offset(0, 20),
+          child: Icon(Icons.colorize, color: Colors.grey[600]),
+          menuBar: MenuBar(
+              drawArrow: true,
+              drawDivider: true,
+              maxThickness: 68,
+              orientation: MenuOrientation.vertical,
+              menuItems: [MenuItem(child: Icon(Icons.add))]),
+        ),
+      ),
       MenuItem(
           child: Icon(Icons.content_copy, color: Colors.grey[600])),
     ],
   ),
+),
+```
+
+## Menu On Tap
+![Imgur](https://i.imgur.com/WJG59UV.png)
+```dart
+Menu(
+  tapType: TapType.tap,
+  child: Container(
+    width: 300,
+    height: 200,
+    color: Colors.yellow,
+    child: Center(child: Text('Show Menu Over Tap')),
+  ),
+  menuOverTap: true,
+  menuBar: menuBar,
 ),
 ```
 
