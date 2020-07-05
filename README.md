@@ -63,7 +63,7 @@ Menu(
 ```
 
 ## Roadmap
-- [ ] Vertical menus
+- [x] Vertical menus
 - [ ] Animations
 - [ ] Fixed screen position menus (Guess that'd just be a Toast...)
 
