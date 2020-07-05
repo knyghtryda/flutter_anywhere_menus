@@ -15,7 +15,7 @@ class Menu extends StatefulWidget {
   final MenuBar menuBar;
 
   /// This will draw the menu where you tap/click on the child widget instead of at a predefined alignment.  Default is `false`
-  /// 
+  ///
   /// Setting this `true` means MenuBar will ignore all alignment paramenters.
   final bool menuOverTap;
 

@@ -22,4 +22,4 @@ enum MenuOrientation { vertical, horizontal }
 
 enum MenuPosition { inside, outside }
 
-enum MenuBorderStyle {straight, rounded, pill}
+enum MenuBorderStyle { straight, rounded, pill }
