@@ -4,17 +4,12 @@ Menus, anywhere you want them!
 ## Default Usage
 ![Imgur](https://i.imgur.com/OJJFglu.png)
 ```dart
-import 'package:fam/menu.dart';
-
 Menu(
-  child: Container(
-    width: 200,
-    color: Colors.yellow,
-    height: 100,
-    child: Text("Press me"),
+  child: MaterialButton(
+    child: Text('Show Basic Menu'),
   ),
-  menuBar: MenuBar()
-);
+  menuBar: MenuBar(),
+),
 ```
 
 ## Slightly Fancier Menu
