@@ -243,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   menuOverTap: true,
                   menuBar: menuBar,
-                  menuAlignmentOnChild: MenuAlignment.bottomRight,
                 ),
               ],
             ),
