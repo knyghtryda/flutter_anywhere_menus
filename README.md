@@ -1,4 +1,4 @@
-# Flutter Anywhere Menus (FAM)
+# Flutter Anywhere Menus (FAM) ![Pub Version](https://img.shields.io/pub/v/flutter_anywhere_menus?style=for-the-badge)
 Menus, anywhere you want them!
 
 ## Usage
