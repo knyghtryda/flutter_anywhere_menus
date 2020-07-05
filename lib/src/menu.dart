@@ -11,10 +11,12 @@ part 'offset_methods.dart';
 class Menu extends StatefulWidget {
   final Widget child;
 
-  /// A [MenuBar] which contains all of the info for rendering the Menu
+  /// This contains all of the info for rendering the Menu
   final MenuBar menuBar;
 
-  /// This will draw the menu where you tap/click on the child widget instead of at a predefined position  Default is `false`
+  /// This will draw the menu where you tap/click on the child widget instead of at a predefined alignment.  Default is `false`
+  /// 
+  /// Setting this `true` means MenuBar will ignore all alignment paramenters.
   final bool menuOverTap;
 
   /// This sets the alignment/orientation where the menu is to be drawn.
@@ -24,21 +26,18 @@ class Menu extends StatefulWidget {
   /// child will be touching
   final MenuAlignment menuAlignmentOnChild;
 
-  /// This is an enum that specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
+  /// This specifies whether to draw the menu outside or inside of the child widget.  By default it is set to outside.
   final MenuPosition position;
 
   /// This is an x,y offset that will applied after the menu has been aligned.
   ///
-  /// This allows you to push the toward or away from the child or shift it side to side as needed.
+  /// This allows you to fine-tune the menu position.
   final Offset offset;
 
   /// This sets what type of tap (onTap, onDoubleTap, etc) this menu will respond to.
   final TapType tapType;
 
-  /// This will clamp the position so that the menu always renders on the screen.  Default is `true`.
-  final bool forceOnscreen;
-
-  Menu({
+  const Menu({
     Key key,
     this.child,
     this.menuBar,
@@ -47,7 +46,6 @@ class Menu extends StatefulWidget {
     this.position = MenuPosition.outside,
     this.offset = Offset.zero,
     this.tapType = TapType.tap,
-    this.forceOnscreen = true,
   }) : super(key: key);
 
   @override
@@ -95,7 +93,7 @@ class _MenuState extends State<Menu> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           CompositedTransformTarget(link: layerLink, child: widget.child),
-          //Renders the menu offstage in order take measurements
+          //Renders a copy of the menu offstage in order take measurements
           Offstage(
             offstage: true,
             child: _MenuBar(

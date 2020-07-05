@@ -118,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Dem Fancy Menus'),
               ),
               menuBar: MenuBar(
+                drawArrow: true,
                 itemPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
                 menuItems: [
                   MenuItem(
@@ -129,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       offset: Offset(0, 20),
                       child: Icon(Icons.colorize, color: Colors.grey[600]),
                       menuBar: MenuBar(
+                          drawArrow: true,
                           drawDivider: true,
                           maxThickness: 68,
                           orientation: MenuOrientation.vertical,
