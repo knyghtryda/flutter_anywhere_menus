@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -42,7 +42,7 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       body: Center(
         child: Column(
@@ -108,14 +108,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       )),
                 )),
             Menu(
-              child: MaterialButton(
+              child: ElevatedButton(
                 child: Text('Show Basic Menu'),
+                onPressed: () {},
               ),
               menuBar: MenuBar(),
             ),
             Menu(
-              child: MaterialButton(
+              child: ElevatedButton(
                 child: Text('Dem Fancy Menus'),
+                onPressed: () {},
               ),
               menuBar: MenuBar(
                 drawArrow: true,
@@ -150,8 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu TL'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.topLeft,
@@ -159,16 +162,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     Menu(
                       tapType: TapType.tap,
                       offset: Offset(0, 10),
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu T'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.topCenter,
                     ),
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu TR'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.topRight,
@@ -180,24 +185,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu CL'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.centerLeft,
                     ),
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu C'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.center,
                     ),
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu CR'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.centerRight,
@@ -209,24 +217,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu BL'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.bottomLeft,
                     ),
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu BC'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.bottomCenter,
                     ),
                     Menu(
                       tapType: TapType.tap,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         child: Text('Show Menu BR'),
+                        onPressed: () {},
                       ),
                       menuBar: menuBar,
                       menuAlignmentOnChild: MenuAlignment.bottomRight,
