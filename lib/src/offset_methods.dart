@@ -1,34 +1,34 @@
 part of 'menu.dart';
 
-Offset getOffsetByAlignment(Rect rect, MenuAlignment alignment) {
+Offset getOffsetByAlignment(Rect? rect, MenuAlignment? alignment) {
   var newOffset;
   switch (alignment) {
     case MenuAlignment.topLeft:
-      newOffset = rect.topLeft;
+      newOffset = rect!.topLeft;
       break;
     case MenuAlignment.topCenter:
-      newOffset = rect.topCenter;
+      newOffset = rect!.topCenter;
       break;
     case MenuAlignment.topRight:
-      newOffset = rect.topRight;
+      newOffset = rect!.topRight;
       break;
     case MenuAlignment.centerLeft:
-      newOffset = rect.centerLeft;
+      newOffset = rect!.centerLeft;
       break;
     case MenuAlignment.center:
-      newOffset = rect.center;
+      newOffset = rect!.center;
       break;
     case MenuAlignment.centerRight:
-      newOffset = rect.centerRight;
+      newOffset = rect!.centerRight;
       break;
     case MenuAlignment.bottomLeft:
-      newOffset = rect.bottomLeft;
+      newOffset = rect!.bottomLeft;
       break;
     case MenuAlignment.bottomCenter:
-      newOffset = rect.bottomCenter;
+      newOffset = rect!.bottomCenter;
       break;
     case MenuAlignment.bottomRight:
-      newOffset = rect.bottomRight;
+      newOffset = rect!.bottomRight;
       break;
     default:
       newOffset = Offset.zero;
